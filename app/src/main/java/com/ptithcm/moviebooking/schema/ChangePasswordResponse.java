@@ -1,8 +1,7 @@
-package com.ptithcm.moviebooking.models;
+package com.ptithcm.moviebooking.schema;
 
-public class MovieDetailResponse {
+public class ChangePasswordResponse {
     private boolean success;
-    private MovieDetail data;
     private String message;
 
     public boolean isSuccess() {
@@ -11,14 +10,6 @@ public class MovieDetailResponse {
 
     public void setSuccess(boolean success) {
         this.success = success;
-    }
-
-    public MovieDetail getData() {
-        return data;
-    }
-
-    public void setData(MovieDetail data) {
-        this.data = data;
     }
 
     public String getMessage() {

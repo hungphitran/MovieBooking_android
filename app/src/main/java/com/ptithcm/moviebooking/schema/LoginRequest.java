@@ -1,4 +1,4 @@
-package com.ptithcm.moviebooking.models;
+package com.ptithcm.moviebooking.schema;
 
 public class LoginRequest {
     private String email;

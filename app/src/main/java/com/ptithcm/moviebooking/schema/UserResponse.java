@@ -1,21 +1,24 @@
-package com.ptithcm.moviebooking.models;
+package com.ptithcm.moviebooking.schema;
 
-import java.util.List;
+import com.ptithcm.moviebooking.models.User;
 
-public class MoviesResponse {
+public class UserResponse {
+
     private boolean success;
     private String message;
-    private List<Movie> data;
+    private User data;
 
-    public MoviesResponse() {
+    public UserResponse() {
+
     }
 
-    public MoviesResponse(boolean success, String message, List<Movie> data) {
+    public UserResponse(boolean success, String message, User data) {
         this.success = success;
         this.message = message;
         this.data = data;
     }
 
+    // Getters and Setters
     public boolean isSuccess() {
         return success;
     }
@@ -32,12 +35,15 @@ public class MoviesResponse {
         this.message = message;
     }
 
-    public List<Movie> getData() {
+    public User getData() {
         return data;
     }
 
-    public void setData(List<Movie> data) {
+
+    public void setData(User data) {
         this.data = data;
     }
+
+
 }
 

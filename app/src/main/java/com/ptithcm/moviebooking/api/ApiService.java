@@ -1,15 +1,21 @@
 package com.ptithcm.moviebooking.api;
 
-import com.ptithcm.moviebooking.models.AuthResponse;
-import com.ptithcm.moviebooking.models.LoginRequest;
-import com.ptithcm.moviebooking.models.MovieDetailResponse;
-import com.ptithcm.moviebooking.models.MoviesResponse;
-import com.ptithcm.moviebooking.models.RegisterRequest;
+import com.ptithcm.moviebooking.schema.AuthResponse;
+import com.ptithcm.moviebooking.schema.ChangePasswordRequest;
+import com.ptithcm.moviebooking.schema.ChangePasswordResponse;
+import com.ptithcm.moviebooking.schema.LoginRequest;
+import com.ptithcm.moviebooking.schema.MovieDetailResponse;
+import com.ptithcm.moviebooking.schema.MoviesResponse;
+import com.ptithcm.moviebooking.schema.RegisterRequest;
+import com.ptithcm.moviebooking.schema.UpdateProfileRequest;
+import com.ptithcm.moviebooking.schema.UpdateProfileResponse;
+import com.ptithcm.moviebooking.schema.UserResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface ApiService {
@@ -19,6 +25,9 @@ public interface ApiService {
 
     @POST("auth/register")
     Call<AuthResponse> register(@Body RegisterRequest registerRequest);
+
+    @GET("user/profile")
+    Call<UserResponse> getUserProfile();
 
     @GET("movies/detail/{id}")
     Call<MovieDetailResponse> getMovieDetail(@Path("id") int movieId);
@@ -34,4 +43,12 @@ public interface ApiService {
     // Lấy tất cả phim
     @GET("movies")
     Call<MoviesResponse> getAllMovies();
+
+    // Cập nhật thông tin tài khoản
+    @PUT("user/update")
+    Call<UpdateProfileResponse> updateProfile(@Body UpdateProfileRequest updateProfileRequest);
+
+    // Đổi mật khẩu
+    @POST("auth/change-password")
+    Call<ChangePasswordResponse> changePassword(@Body ChangePasswordRequest changePasswordRequest);
 }

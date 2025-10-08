@@ -18,11 +18,9 @@ import com.ptithcm.moviebooking.R;
 import com.ptithcm.moviebooking.adapters.MovieAdapter;
 import com.ptithcm.moviebooking.api.ApiService;
 import com.ptithcm.moviebooking.api.RetrofitClient;
-import com.ptithcm.moviebooking.models.Movie;
-import com.ptithcm.moviebooking.models.MoviesResponse;
+import com.ptithcm.moviebooking.schema.MoviesResponse;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -14,8 +14,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.ptithcm.moviebooking.api.RetrofitClient;
-import com.ptithcm.moviebooking.models.AuthResponse;
-import com.ptithcm.moviebooking.models.LoginRequest;
+import com.ptithcm.moviebooking.schema.AuthResponse;
+import com.ptithcm.moviebooking.schema.LoginRequest;
 import com.ptithcm.moviebooking.utils.TokenManager;
 
 import retrofit2.Call;
@@ -37,7 +37,6 @@ public class LoginActivity extends AppCompatActivity {
 
         // Initialize views
         initViews();
-
         // Set click listeners
         setClickListeners();
     }

@@ -13,8 +13,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.ptithcm.moviebooking.api.RetrofitClient;
-import com.ptithcm.moviebooking.models.AuthResponse;
-import com.ptithcm.moviebooking.models.RegisterRequest;
+import com.ptithcm.moviebooking.schema.AuthResponse;
+import com.ptithcm.moviebooking.schema.RegisterRequest;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,8 +23,8 @@ import retrofit2.Response;
 public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "RegisterActivity";
-    private TextInputLayout tilName, tilEmail, tilPhone, tilAge, tilAddress, tilAvatar, tilPassword, tilConfirmPassword;
-    private TextInputEditText etName, etEmail, etPhone, etAge, etAddress, etAvatar, etPassword, etConfirmPassword;
+    private TextInputLayout tilName, tilEmail, tilPhone, tilAge, tilPassword, tilConfirmPassword;
+    private TextInputEditText etName, etEmail, etPhone, etAge, etPassword, etConfirmPassword;
     private MaterialButton btnRegister;
     private android.view.View tvLogin;
 
@@ -45,7 +45,6 @@ public class RegisterActivity extends AppCompatActivity {
         tilEmail = findViewById(R.id.tilEmail);
         tilPhone = findViewById(R.id.tilPhone);
         tilAge = findViewById(R.id.tilAge);
-        tilAddress = findViewById(R.id.tilAddress);
         tilPassword = findViewById(R.id.tilPassword);
         tilConfirmPassword = findViewById(R.id.tilConfirmPassword);
 
@@ -53,7 +52,6 @@ public class RegisterActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPhone = findViewById(R.id.etPhone);
         etAge = findViewById(R.id.etAge);
-        etAddress = findViewById(R.id.etAddress);
         etPassword = findViewById(R.id.etPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
 
@@ -81,12 +79,11 @@ public class RegisterActivity extends AppCompatActivity {
         String email = etEmail.getText() != null ? etEmail.getText().toString().trim() : "";
         String phone = etPhone.getText() != null ? etPhone.getText().toString().trim() : "";
         String ageStr = etAge.getText() != null ? etAge.getText().toString().trim() : "";
-        String address = etAddress.getText() != null ? etAddress.getText().toString().trim() : "";
         String password = etPassword.getText() != null ? etPassword.getText().toString().trim() : "";
         String confirmPassword = etConfirmPassword.getText() != null ? etConfirmPassword.getText().toString().trim() : "";
 
         // Validate inputs
-        if (!validateInputs(name, email, phone, ageStr, address, password, confirmPassword)) {
+        if (!validateInputs(name, email, phone, ageStr, password, confirmPassword)) {
             return;
         }
 
@@ -98,7 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister.setText("Đang đăng ký...");
 
         // Call API
-        RegisterRequest registerRequest = new RegisterRequest(email, password, name, address, phone, age);
+        RegisterRequest registerRequest = new RegisterRequest(email, password, name, phone, age);
         RetrofitClient.getInstance(RegisterActivity.this).getApiService().register(registerRequest).enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
@@ -148,13 +145,12 @@ public class RegisterActivity extends AppCompatActivity {
         tilEmail.setError(null);
         tilPhone.setError(null);
         tilAge.setError(null);
-        tilAddress.setError(null);
         tilPassword.setError(null);
         tilConfirmPassword.setError(null);
     }
 
     private boolean validateInputs(String name, String email, String phone, String ageStr,
-                                   String address, String password, String confirmPassword) {
+                                   String password, String confirmPassword) {
         boolean isValid = true;
 
         // Validate name
@@ -198,11 +194,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }
 
-        // Validate address
-        if (TextUtils.isEmpty(address)) {
-            tilAddress.setError(getString(R.string.address_required));
-            isValid = false;
-        }
 
         // Validate password
         if (TextUtils.isEmpty(password)) {

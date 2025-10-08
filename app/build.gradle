@@ -32,6 +32,9 @@ android {
         abortOnError = false
         checkReleaseBuilds = false
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -48,6 +51,8 @@ dependencies {
 
     // Glide for image loading
     implementation 'com.github.bumptech.glide:glide:4.16.0'
+    implementation libs.navigation.fragment
+    implementation libs.navigation.ui
     annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
 
     testImplementation libs.junit

@@ -18,7 +18,7 @@ import com.google.android.material.button.MaterialButton;
 import com.ptithcm.moviebooking.api.ApiService;
 import com.ptithcm.moviebooking.api.RetrofitClient;
 import com.ptithcm.moviebooking.models.MovieDetail;
-import com.ptithcm.moviebooking.models.MovieDetailResponse;
+import com.ptithcm.moviebooking.schema.MovieDetailResponse;
 
 import java.util.Locale;
 
@@ -26,7 +26,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 public class MovieDetailActivity extends AppCompatActivity {
 

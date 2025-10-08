@@ -131,29 +131,6 @@
                     android:textColor="@color/text_primary"
                     android:textSize="16sp" />
             </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Address Input -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilAddress"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_weight="1"
-                android:hint="@string/address_hint"
-                android:textColorHint="@color/text_secondary"
-                app:boxStrokeColor="@color/primary"
-                app:hintTextColor="@color/primary">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/input_background"
-                    android:inputType="textPostalAddress"
-                    android:textColor="@color/text_primary"
-                    android:textSize="16sp" />
-            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
         <!-- Password Input -->

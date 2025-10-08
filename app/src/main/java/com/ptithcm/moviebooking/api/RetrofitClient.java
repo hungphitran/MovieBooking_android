@@ -28,9 +28,13 @@ public class RetrofitClient {
         // Create Auth interceptor để tự động thêm token vào header
         AuthInterceptor authInterceptor = new AuthInterceptor(context);
 
+        // Create Token Expiration interceptor để xử lý token hết hạn
+        TokenExpirationInterceptor tokenExpirationInterceptor = new TokenExpirationInterceptor(context);
+
         // Create OkHttpClient với timeout và logging
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(authInterceptor) // Add auth interceptor first
+                .addInterceptor(tokenExpirationInterceptor) // Add token expiration interceptor
                 .addInterceptor(loggingInterceptor)
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
