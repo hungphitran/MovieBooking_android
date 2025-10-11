@@ -58,6 +58,16 @@
             android:exported="false"
             android:theme="@style/Theme.MovieBooking"
             android:windowSoftInputMode="stateVisible|adjustResize" />
+        <!-- Showtime List Activity -->
+        <activity
+            android:name=".ShowtimeListActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MovieBooking" />
+        <!-- Showtime Detail Activity -->
+        <activity
+            android:name=".ShowtimeDetailActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MovieBooking" />
     </application>
 
 </manifest>

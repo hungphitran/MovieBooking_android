@@ -1,12 +1,17 @@
 package com.ptithcm.moviebooking.api;
 
 import com.ptithcm.moviebooking.schema.AuthResponse;
+import com.ptithcm.moviebooking.schema.BookingRequest;
+import com.ptithcm.moviebooking.schema.BookingResponse;
+import com.ptithcm.moviebooking.schema.BookingsResponse;
 import com.ptithcm.moviebooking.schema.ChangePasswordRequest;
 import com.ptithcm.moviebooking.schema.ChangePasswordResponse;
 import com.ptithcm.moviebooking.schema.LoginRequest;
 import com.ptithcm.moviebooking.schema.MovieDetailResponse;
 import com.ptithcm.moviebooking.schema.MoviesResponse;
 import com.ptithcm.moviebooking.schema.RegisterRequest;
+import com.ptithcm.moviebooking.schema.ShowtimeDetailResponse;
+import com.ptithcm.moviebooking.schema.ShowtimesResponse;
 import com.ptithcm.moviebooking.schema.UpdateProfileRequest;
 import com.ptithcm.moviebooking.schema.UpdateProfileResponse;
 import com.ptithcm.moviebooking.schema.UserResponse;
@@ -60,4 +65,24 @@ public interface ApiService {
     // Đổi mật khẩu
     @POST("auth/change-password")
     Call<ChangePasswordResponse> changePassword(@Body ChangePasswordRequest changePasswordRequest);
+
+    // Lấy danh sách showtimes
+    @GET("showtimes")
+    Call<ShowtimesResponse> getShowtimes();
+
+    // Lấy showtimes theo movie ID
+    @GET("showtimes")
+    Call<ShowtimesResponse> getShowtimesByMovie(@Query("movieId") int movieId);
+
+    // Lấy chi tiết showtime (bao gồm ghế ngồi)
+    @GET("showtimes/{id}")
+    Call<ShowtimeDetailResponse> getShowtimeDetail(@Path("id") String showtimeId);
+
+    // Đặt vé
+    @POST("bookings")
+    Call<BookingResponse> createBooking(@Body BookingRequest bookingRequest);
+
+    // Lấy danh sách bookings của user
+    @GET("bookings")
+    Call<BookingsResponse> getUserBookings();
 }

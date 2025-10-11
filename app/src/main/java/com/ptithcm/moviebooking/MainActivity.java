@@ -123,6 +123,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, SearchActivity.class);
             startActivity(intent);
             return true;
+        } else if (itemId == R.id.action_showtimes) {
+            // Mở ShowtimeListActivity để xem danh sách lịch chiếu
+            Intent intent = new Intent(MainActivity.this, ShowtimeListActivity.class);
+            startActivity(intent);
+            return true;
         } else if (itemId == R.id.action_all_movies) {
             // Open MovieListActivity to show all movies
             Intent intent = new Intent(MainActivity.this, MovieListActivity.class);

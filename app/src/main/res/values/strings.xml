@@ -148,4 +148,10 @@
     </string>
 
     <string name="all_movies">Tất cả phim</string>
+
+    <!-- Booking & Showtime -->
+    <string name="no_seat_selected">Ghế đã chọn: Chưa chọn</string>
+    <string name="showtime_list">Lịch Chiếu</string>
+    <string name="showtime_detail">Chi Tiết Lịch Chiếu</string>
+
 </resources>

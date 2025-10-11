@@ -94,8 +94,11 @@ public class MovieDetailActivity extends AppCompatActivity {
     private void setupButtons() {
         btnBookTicket.setOnClickListener(v -> {
             if (movieDetail != null) {
-                Toast.makeText(this, R.string.booking_feature_coming_soon, Toast.LENGTH_SHORT).show();
-                // TODO: Navigate to booking screen
+                // Navigate to ShowtimeListActivity with movieId
+                Intent intent = new Intent(MovieDetailActivity.this, ShowtimeListActivity.class);
+                intent.putExtra("movieId", movieId);
+                intent.putExtra("movieTitle", movieDetail.getTitle());
+                startActivity(intent);
             }
         });
 
@@ -183,7 +186,15 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     private void showError(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        // Kiểm tra xem Activity còn tồn tại không trước khi hiển thị Toast
+        if (!isFinishing() && !isDestroyed()) {
+            try {
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                // Ignore any exception from Toast
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -192,4 +203,3 @@ public class MovieDetailActivity extends AppCompatActivity {
         return true;
     }
 }
-
