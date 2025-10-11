@@ -8,7 +8,7 @@ public class MovieDetail {
     private String overview;
     private String release_date;
     private int runtime;
-    private List<String> genres;
+    private String genres;
     private double vote_average;
     private String poster_path;
     private String backdrop_path;
@@ -56,11 +56,11 @@ public class MovieDetail {
         this.runtime = runtime;
     }
 
-    public List<String> getGenres() {
+    public String getGenres() {
         return genres;
     }
 
-    public void setGenres(List<String> genres) {
+    public void setGenres(String genres) {
         this.genres = genres;
     }
 
@@ -114,12 +114,5 @@ public class MovieDetail {
         return "N/A";
     }
 
-    // Helper method để format genres thành string
-    public String getGenresString() {
-        if (genres != null && !genres.isEmpty()) {
-            return String.join(", ", genres);
-        }
-        return "N/A";
-    }
 }
 

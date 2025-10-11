@@ -8,30 +8,87 @@
     android:orientation="vertical"
     android:padding="24dp">
 
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:alpha="0.5"
-        android:contentDescription="@string/no_tickets"
-        android:src="@android:drawable/ic_menu_today"
-        app:tint="@color/text_secondary" />
-
-    <TextView
-        android:id="@+id/tvNoTickets"
-        android:layout_width="wrap_content"
+    <!-- Container cho trạng thái chưa đăng nhập -->
+    <LinearLayout
+        android:id="@+id/layoutNotLoggedIn"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/no_tickets"
-        android:textColor="@color/text_secondary"
-        android:textSize="18sp" />
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    <TextView
-        android:layout_width="wrap_content"
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:alpha="0.5"
+            android:contentDescription="@string/no_tickets"
+            android:src="@android:drawable/ic_lock_idle_lock"
+            app:tint="@color/text_secondary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Vui lòng đăng nhập"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="Đăng nhập để xem vé của bạn"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLoginTickets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            android:text="Đăng nhập"
+            android:textSize="16sp"
+            app:cornerRadius="8dp" />
+    </LinearLayout>
+
+    <!-- Container cho trạng thái đã đăng nhập nhưng chưa có vé -->
+    <LinearLayout
+        android:id="@+id/layoutNoTickets"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Đặt vé để bắt đầu trải nghiệm!"
-        android:textColor="@color/text_secondary"
-        android:textSize="14sp" />
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:alpha="0.5"
+            android:contentDescription="@string/no_tickets"
+            android:src="@android:drawable/ic_menu_today"
+            app:tint="@color/text_secondary" />
+
+        <TextView
+            android:id="@+id/tvNoTickets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/no_tickets"
+            android:textColor="@color/text_secondary"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Đặt vé để bắt đầu trải nghiệm!"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTickets"
@@ -39,4 +96,3 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 </LinearLayout>
-

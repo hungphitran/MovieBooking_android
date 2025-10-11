@@ -12,7 +12,7 @@ public class Movie {
     @SerializedName("poster_path")
     private String posterUrl;
 
-    @SerializedName("genre")
+    @SerializedName("genres")
     private String genre;
 
     @SerializedName("duration")

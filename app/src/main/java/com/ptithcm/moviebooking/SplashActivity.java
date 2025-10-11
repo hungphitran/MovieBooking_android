@@ -7,8 +7,6 @@ import android.os.Looper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ptithcm.moviebooking.utils.TokenManager;
-
 public class SplashActivity extends AppCompatActivity {
 
     private static final long SPLASH_DELAY = 1500; // 1.5 seconds
@@ -18,26 +16,19 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        // Check token after splash delay
+        // Navigate to MainActivity after splash delay
+        // User can browse home screen without login
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            checkAuthenticationAndNavigate();
+            navigateToMainActivity();
         }, SPLASH_DELAY);
     }
 
-    private void checkAuthenticationAndNavigate() {
-        TokenManager tokenManager = TokenManager.getInstance(this);
-
-        Intent intent;
-        if (tokenManager.isLoggedIn()) {
-            // User has valid token, go to MainActivity
-            intent = new Intent(SplashActivity.this, MainActivity.class);
-        } else {
-            // No token, go to LoginActivity
-            intent = new Intent(SplashActivity.this, LoginActivity.class);
-        }
-
+    private void navigateToMainActivity() {
+        // Luôn chuyển đến MainActivity
+        // Người dùng có thể xem trang chủ mà không cần đăng nhập
+        // Khi chuyển sang tab Vé hoặc Tài khoản, sẽ yêu cầu đăng nhập nếu chưa có token
+        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
     }
 }
-

@@ -58,7 +58,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     static class MovieViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView;
         private ImageView ivPoster;
-        private TextView tvTitle, tvGenre, tvRating;
+        private TextView tvTitle, tvGenre, tvReleaseDate, tvRating;
 
         public MovieViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -66,12 +66,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             ivPoster = itemView.findViewById(R.id.ivMoviePoster);
             tvTitle = itemView.findViewById(R.id.tvMovieTitle);
             tvGenre = itemView.findViewById(R.id.tvMovieGenre);
+            tvReleaseDate = itemView.findViewById(R.id.tvMovieReleaseDate);
             tvRating = itemView.findViewById(R.id.tvMovieRating);
         }
 
         public void bind(Movie movie, OnMovieClickListener listener) {
             tvTitle.setText(movie.getTitle());
             tvGenre.setText(movie.getGenre());
+            tvReleaseDate.setText("📅 " + movie.getReleaseDate());
             tvRating.setText(String.format("⭐ %.1f", movie.getRating()));
 
             // Load image from URL using Glide

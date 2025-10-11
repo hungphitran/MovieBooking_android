@@ -161,7 +161,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                 .error(R.drawable.movie_item)
                 .into(ivPoster);
         // Set genres
-        tvGenres.setText(movieDetail.getGenresString());
+        tvGenres.setText(movieDetail.getGenres());
 
         // Set overview
         if (movieDetail.getOverview() != null && !movieDetail.getOverview().isEmpty()) {

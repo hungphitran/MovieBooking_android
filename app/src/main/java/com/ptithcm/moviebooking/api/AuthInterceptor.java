@@ -24,20 +24,27 @@ public class AuthInterceptor implements Interceptor {
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request originalRequest = chain.request();
+        String path = originalRequest.url().encodedPath();
 
-        // Get token from TokenManager
-        String token = TokenManager.getInstance(context).getToken();
+        // Chỉ thêm token cho các endpoint cần xác thực
+        // Danh sách endpoints cần token: user profile, bookings, tickets, change password, update profile
+        boolean requiresAuth = path.contains("/user/") ||
+                              path.contains("/booking") ||
+                              path.contains("/ticket") ||
+                              path.contains("/auth/change-password");
 
-        // If token exists, add it to the request header
-        if (token != null && !token.isEmpty()) {
-            Request newRequest = originalRequest.newBuilder()
-                    .header("Authorization", "Bearer " + token)
-                    .build();
-            return chain.proceed(newRequest);
+        // Nếu endpoint cần xác thực và có token, thêm vào header
+        if (requiresAuth) {
+            String token = TokenManager.getInstance(context).getToken();
+            if (token != null && !token.isEmpty()) {
+                Request newRequest = originalRequest.newBuilder()
+                        .header("Authorization", "Bearer " + token)
+                        .build();
+                return chain.proceed(newRequest);
+            }
         }
 
-        // If no token, proceed with original request
+        // Nếu không cần xác thực hoặc không có token, tiếp tục với request gốc
         return chain.proceed(originalRequest);
     }
 }
-

@@ -17,6 +17,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiService {
 
@@ -43,6 +44,14 @@ public interface ApiService {
     // Lấy tất cả phim
     @GET("movies")
     Call<MoviesResponse> getAllMovies();
+
+    // Lấy tất cả phim với phân trang
+    @GET("movies/get-all")
+    Call<MoviesResponse> getMoviesWithPagination(@Query("page") int page);
+
+    // Tìm kiếm phim theo từ khóa
+    @GET("movies/get-all")
+    Call<MoviesResponse> searchMovies(@Query("q") String query);
 
     // Cập nhật thông tin tài khoản
     @PUT("user/update")

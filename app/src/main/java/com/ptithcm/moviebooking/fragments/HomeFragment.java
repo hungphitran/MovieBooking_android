@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,7 +14,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ptithcm.moviebooking.MainActivity;
 import com.ptithcm.moviebooking.MovieDetailActivity;
+import com.ptithcm.moviebooking.MovieListActivity;
 import com.ptithcm.moviebooking.R;
 import com.ptithcm.moviebooking.adapters.MovieAdapter;
 import com.ptithcm.moviebooking.api.ApiService;
@@ -31,6 +34,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView rvNowShowing, rvComingSoon;
     private MovieAdapter nowShowingAdapter, comingSoonAdapter;
     private ApiService apiService;
+    private TextView btnViewAllNowShowing, btnViewAllComingSoon;
 
     @Nullable
     @Override
@@ -53,6 +57,20 @@ public class HomeFragment extends Fragment {
     private void initViews(View view) {
         rvNowShowing = view.findViewById(R.id.rvNowShowing);
         rvComingSoon = view.findViewById(R.id.rvComingSoon);
+
+        btnViewAllNowShowing = view.findViewById(R.id.btnViewAll);
+        btnViewAllComingSoon = view.findViewById(R.id.btnViewAll2);
+        btnViewAllNowShowing.setOnClickListener(v -> {
+            Toast.makeText(getContext(), "Xem tất cả phim đang chiếu", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this.getActivity(), MovieListActivity.class);
+            startActivity(intent);
+        });
+
+        btnViewAllComingSoon.setOnClickListener(v -> {
+            Toast.makeText(getContext(), "Xem tất cả phim sắp chiếu", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this.getActivity(), MovieListActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void setupRecyclerViews() {

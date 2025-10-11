@@ -24,6 +24,10 @@
         <activity
             android:name=".ChangePasswordActivity"
             android:exported="false"
+            android:theme="@style/Theme.MovieBooking" /> <!-- Movie List Activity -->
+        <activity
+            android:name=".MovieListActivity"
+            android:exported="false"
             android:theme="@style/Theme.MovieBooking" /> <!-- Splash Activity - Launcher (Màn hình khởi động) -->
         <activity
             android:name=".SplashActivity"
@@ -48,6 +52,12 @@
             android:name=".MovieDetailActivity"
             android:exported="false"
             android:theme="@style/Theme.MovieBooking" />
+        <!-- Search Activity -->
+        <activity
+            android:name=".SearchActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MovieBooking"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
     </application>
 
 </manifest>

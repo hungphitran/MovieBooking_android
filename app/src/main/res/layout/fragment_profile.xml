@@ -1,189 +1,244 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
 
+    <!-- Layout khi chưa đăng nhập -->
     <LinearLayout
+        android:id="@+id/layoutNotLoggedInProfile"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:visibility="gone">
 
-        <!-- Profile Header -->
-        <com.google.android.material.card.MaterialCardView
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:alpha="0.5"
+            android:contentDescription="@string/profile"
+            android:src="@android:drawable/ic_lock_idle_lock"
+            app:tint="@color/text_secondary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Vui lòng đăng nhập"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="Đăng nhập để quản lý tài khoản của bạn"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLoginProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            android:text="Đăng nhập"
+            android:textSize="16sp"
+            app:cornerRadius="8dp" />
+    </LinearLayout>
+
+    <!-- Layout khi đã đăng nhập -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/layoutLoggedInProfile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:cardBackgroundColor="@color/surface"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <!-- Profile Header -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-                <ImageView
-                    android:id="@+id/ivAvatar"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:background="@color/primary"
-                    android:padding="12dp"
-                    android:src="@android:drawable/ic_menu_myplaces"
-                    app:tint="@color/white" />
+                android:layout_margin="16dp"
+                app:cardBackgroundColor="@color/surface"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
 
-                    <TextView
-                        android:id="@+id/tvUserName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Người dùng"
-                        android:textColor="@color/text_primary"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                    <ImageView
+                        android:id="@+id/ivAvatar"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:background="@color/primary"
+                        android:padding="12dp"
+                        android:src="@android:drawable/ic_menu_myplaces"
+                        app:tint="@color/white" />
 
-                    <TextView
-                        android:id="@+id/tvUserEmail"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="user@example.com"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="14sp" />
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvUserName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Người dùng"
+                            android:textColor="@color/text_primary"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvUserEmail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="user@example.com"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="14sp" />
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+            </com.google.android.material.card.MaterialCardView>
 
-        <!-- Menu Items -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvEditProfile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:foreground="?attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/surface"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="2dp">
-
-            <LinearLayout
+            <!-- Menu Items -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvEditProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/surface"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp">
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@android:drawable/ic_menu_edit"
-                    app:tint="@color/primary" />
-
-                <TextView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="1"
-                    android:text="@string/edit_profile"
-                    android:textColor="@color/text_primary"
-                    android:textSize="16sp" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@android:drawable/ic_menu_more"
-                    app:tint="@color/text_secondary" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@android:drawable/ic_menu_edit"
+                        app:tint="@color/primary" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvChangePassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:foreground="?attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/surface"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="2dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:text="@string/edit_profile"
+                        android:textColor="@color/text_primary"
+                        android:textSize="16sp" />
 
-            <LinearLayout
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@android:drawable/ic_menu_more"
+                        app:tint="@color/text_secondary" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvChangePassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/surface"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp">
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@android:drawable/ic_lock_lock"
-                    app:tint="@color/primary" />
-
-                <TextView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="1"
-                    android:text="@string/change_password"
-                    android:textColor="@color/text_primary"
-                    android:textSize="16sp" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@android:drawable/ic_menu_more"
-                    app:tint="@color/text_secondary" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@android:drawable/ic_lock_lock"
+                        app:tint="@color/primary" />
 
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:text="@string/change_password"
+                        android:textColor="@color/text_primary"
+                        android:textSize="16sp" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvLogout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:foreground="?attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/surface"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="2dp">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@android:drawable/ic_menu_more"
+                        app:tint="@color/text_secondary" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-            <LinearLayout
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvLogout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                android:layout_margin="16dp"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/surface"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp">
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@android:drawable/ic_menu_revert"
-                    app:tint="@color/primary" />
-
-                <TextView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="1"
-                    android:text="@string/logout"
-                    android:textColor="@color/primary"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@android:drawable/ic_menu_revert"
+                        app:tint="@color/primary" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:text="@string/logout"
+                        android:textColor="@color/primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>

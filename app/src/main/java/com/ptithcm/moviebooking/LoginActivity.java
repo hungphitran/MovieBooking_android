@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout tilEmail, tilPassword;
     private TextInputEditText etEmail, etPassword;
     private MaterialButton btnLogin;
-    private View tvForgotPassword, tvSignUp;
+    private View tvForgotPassword, tvSignUp, btnBackToHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         tvForgotPassword = findViewById(R.id.tvForgotPassword);
         tvSignUp = findViewById(R.id.tvSignUp);
+        btnBackToHome = findViewById(R.id.btnBackToHome);
     }
 
     private void setClickListeners() {
@@ -61,6 +62,14 @@ public class LoginActivity extends AppCompatActivity {
         tvSignUp.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
+        });
+
+        // Xử lý nút quay lại trang chủ
+        btnBackToHome.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
         });
     }
 

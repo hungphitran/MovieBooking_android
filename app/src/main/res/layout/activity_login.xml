@@ -14,11 +14,41 @@
         android:padding="24dp"
         android:gravity="center_horizontal">
 
+        <!-- Nút quay lại trang chủ -->
+        <LinearLayout
+            android:id="@+id/btnBackToHome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="start|center_vertical"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            android:padding="8dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_revert"
+                app:tint="@color/primary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Quay lại trang chủ"
+                android:textColor="@color/primary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
         <!-- Logo with circular shape -->
         <androidx.cardview.widget.CardView
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="24dp"
             app:cardCornerRadius="60dp"
             app:cardElevation="4dp">
 

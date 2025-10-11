@@ -5,14 +5,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.button.MaterialButton;
 import com.ptithcm.moviebooking.ChangePasswordActivity;
 import com.ptithcm.moviebooking.EditProfileActivity;
 import com.ptithcm.moviebooking.LoginActivity;
@@ -29,6 +32,9 @@ import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
 
+    private LinearLayout layoutNotLoggedInProfile;
+    private NestedScrollView layoutLoggedInProfile;
+    private MaterialButton btnLoginProfile;
     private TextView tvUserName, tvUserEmail;
     private CardView cvEditProfile, cvChangePassword, cvLogout;
     private TokenManager tokenManager;
@@ -48,24 +54,48 @@ public class ProfileFragment extends Fragment {
         apiService = RetrofitClient.getInstance(requireContext()).getApiService();
 
         initViews(view);
-        loadUserData();
-        setupClickListeners();
+        checkLoginStatus();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        // Reload user data mỗi khi Fragment được hiển thị lại
-        // Điều này đảm bảo dữ liệu được cập nhật sau khi edit profile
-        loadUserData();
+        // Kiểm tra lại trạng thái đăng nhập khi quay lại fragment
+        checkLoginStatus();
     }
 
     private void initViews(View view) {
+        layoutNotLoggedInProfile = view.findViewById(R.id.layoutNotLoggedInProfile);
+        layoutLoggedInProfile = view.findViewById(R.id.layoutLoggedInProfile);
+        btnLoginProfile = view.findViewById(R.id.btnLoginProfile);
+
         tvUserName = view.findViewById(R.id.tvUserName);
         tvUserEmail = view.findViewById(R.id.tvUserEmail);
         cvEditProfile = view.findViewById(R.id.cvEditProfile);
         cvChangePassword = view.findViewById(R.id.cvChangePassword);
         cvLogout = view.findViewById(R.id.cvLogout);
+
+        btnLoginProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+        });
+
+        setupClickListeners();
+    }
+
+    private void checkLoginStatus() {
+        String token = tokenManager.getToken();
+
+        if (token == null || token.isEmpty()) {
+            // Chưa đăng nhập - hiển thị nút đăng nhập
+            layoutNotLoggedInProfile.setVisibility(View.VISIBLE);
+            layoutLoggedInProfile.setVisibility(View.GONE);
+        } else {
+            // Đã đăng nhập - hiển thị thông tin tài khoản
+            layoutNotLoggedInProfile.setVisibility(View.GONE);
+            layoutLoggedInProfile.setVisibility(View.VISIBLE);
+            loadUserData();
+        }
     }
 
     private void loadUserData() {

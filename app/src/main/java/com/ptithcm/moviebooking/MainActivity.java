@@ -103,6 +103,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        // Ẩn nút logout nếu chưa đăng nhập
+        TokenManager tokenManager = TokenManager.getInstance(this);
+        MenuItem logoutItem = menu.findItem(R.id.action_logout);
+        if (logoutItem != null) {
+            logoutItem.setVisible(tokenManager.isLoggedIn());
+        }
+
         return true;
     }
 
@@ -111,7 +119,14 @@ public class MainActivity extends AppCompatActivity {
         int itemId = item.getItemId();
 
         if (itemId == R.id.action_search) {
-            // TODO: Open search activity
+            // Mở SearchActivity để tìm kiếm phim
+            Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (itemId == R.id.action_all_movies) {
+            // Open MovieListActivity to show all movies
+            Intent intent = new Intent(MainActivity.this, MovieListActivity.class);
+            startActivity(intent);
             return true;
         } else if (itemId == R.id.action_logout) {
             handleLogout();
@@ -130,5 +145,12 @@ public class MainActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Cập nhật menu khi quay lại activity để hiển thị/ẩn logout button
+        invalidateOptionsMenu();
     }
 }
