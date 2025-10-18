@@ -100,7 +100,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginEnd="16dp">
+                    android:layout_marginEnd="12dp">
                     <View
                         android:layout_width="24dp"
                         android:layout_height="24dp"
@@ -117,7 +117,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginEnd="16dp">
+                    android:layout_marginEnd="12dp">
                     <View
                         android:layout_width="24dp"
                         android:layout_height="24dp"
@@ -126,6 +126,23 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=" Đang chọn"
+                        android:textSize="12sp"
+                        android:layout_marginStart="4dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginEnd="12dp">
+                    <View
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@color/seat_reserved" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" Đang giữ"
                         android:textSize="12sp"
                         android:layout_marginStart="4dp" />
                 </LinearLayout>
@@ -216,4 +233,3 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>
-

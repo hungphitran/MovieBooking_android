@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +24,7 @@ public class MovieListFragment extends Fragment {
     private RecyclerView recyclerView;
     private MovieAdapter adapter;
     private LinearLayout paginationLayout;
+    private HorizontalScrollView paginationScrollView;
     private int currentPage = 1;
     private int totalPages = 1;
     private static final int PAGE_SIZE = 10;
@@ -34,9 +36,9 @@ public class MovieListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_movie_list, container, false);
         recyclerView = view.findViewById(R.id.recycler_movies);
         paginationLayout = view.findViewById(R.id.pagination_layout);
+        paginationScrollView = view.findViewById(R.id.pagination_scroll_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // TODO: Load movies from API or local source
         loadMovies();
         return view;
     }
@@ -66,10 +68,14 @@ public class MovieListFragment extends Fragment {
     private void setupPagination() {
         paginationLayout.removeAllViews();
 
+        // Scroll về đầu để hiển thị nút đầu tiên
+        if (paginationScrollView != null) {
+            paginationScrollView.post(() -> paginationScrollView.smoothScrollTo(0, 0));
+        }
+
         // Add "Previous" button
         if (currentPage > 1) {
-            Button btnPrev = new Button(getContext());
-            btnPrev.setText("◀ Trước");
+            Button btnPrev = createPaginationButton("◀ Trước");
             btnPrev.setOnClickListener(v -> {
                 currentPage--;
                 showPage(currentPage);
@@ -83,12 +89,11 @@ public class MovieListFragment extends Fragment {
         int endPage = Math.min(totalPages, currentPage + 2);
 
         for (int i = startPage; i <= endPage; i++) {
-            Button btn = new Button(getContext());
-            btn.setText(String.valueOf(i));
+            Button btn = createPaginationButton(String.valueOf(i));
             final int pageNumber = i;
 
             if (i == currentPage) {
-                btn.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
+                btn.setSelected(true);
             }
 
             btn.setOnClickListener(v -> {
@@ -101,8 +106,7 @@ public class MovieListFragment extends Fragment {
 
         // Add "Next" button
         if (currentPage < totalPages) {
-            Button btnNext = new Button(getContext());
-            btnNext.setText("Sau ▶");
+            Button btnNext = createPaginationButton("Sau ▶");
             btnNext.setOnClickListener(v -> {
                 currentPage++;
                 showPage(currentPage);
@@ -110,6 +114,12 @@ public class MovieListFragment extends Fragment {
             });
             paginationLayout.addView(btnNext);
         }
+    }
+
+    private Button createPaginationButton(String text) {
+        Button btn = (Button) getLayoutInflater().inflate(R.layout.button_pagination, paginationLayout, false);
+        btn.setText(text);
+        return btn;
     }
 
     // Dummy data for demonstration - replace with real API call

@@ -72,7 +72,7 @@ public interface ApiService {
 
     // Lấy showtimes theo movie ID
     @GET("showtimes")
-    Call<ShowtimesResponse> getShowtimesByMovie(@Query("movieId") int movieId);
+    Call<ShowtimesResponse> getShowtimesByMovie(@Query("movie_id") int movieId);
 
     // Lấy chi tiết showtime (bao gồm ghế ngồi)
     @GET("showtimes/{id}")

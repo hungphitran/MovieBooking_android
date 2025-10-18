@@ -3,7 +3,7 @@ package com.ptithcm.moviebooking.models;
 import com.google.gson.annotations.SerializedName;
 
 public class Showtime {
-    @SerializedName("id")
+    @SerializedName("showtimeId")
     private String id;
 
     @SerializedName("movieId")

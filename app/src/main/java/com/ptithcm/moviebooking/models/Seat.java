@@ -3,22 +3,19 @@ package com.ptithcm.moviebooking.models;
 import com.google.gson.annotations.SerializedName;
 
 public class Seat {
-    @SerializedName("id")
+    @SerializedName("seatId")
     private String id;
-
-    @SerializedName("seatNumber")
-    private String seatNumber;
 
     @SerializedName("row")
     private String row;
 
-    @SerializedName("column")
+    @SerializedName("number")
     private int column;
 
-    @SerializedName("isBooked")
-    private boolean isBooked;
+    @SerializedName("status")
+    private String status;  // "available" or "booked"
 
-    @SerializedName("price")
+    // Price is not from API, it will be calculated based on movie budget
     private double price;
 
     private boolean isSelected;
@@ -26,12 +23,11 @@ public class Seat {
     public Seat() {
     }
 
-    public Seat(String id, String seatNumber, String row, int column, boolean isBooked, double price) {
+    public Seat(String id, String row, int column, boolean isBooked, double price) {
         this.id = id;
-        this.seatNumber = seatNumber;
         this.row = row;
         this.column = column;
-        this.isBooked = isBooked;
+        this.status = isBooked ? "booked" : "available";
         this.price = price;
         this.isSelected = false;
     }
@@ -43,14 +39,6 @@ public class Seat {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getSeatNumber() {
-        return seatNumber;
-    }
-
-    public void setSeatNumber(String seatNumber) {
-        this.seatNumber = seatNumber;
     }
 
     public String getRow() {
@@ -70,11 +58,23 @@ public class Seat {
     }
 
     public boolean isBooked() {
-        return isBooked;
+        return "booked".equals(status);
+    }
+
+    public boolean isReserved() {
+        return "reserved".equals(status);
     }
 
     public void setBooked(boolean booked) {
-        isBooked = booked;
+        this.status = booked ? "booked" : "available";
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public double getPrice() {
@@ -92,5 +92,9 @@ public class Seat {
     public void setSelected(boolean selected) {
         isSelected = selected;
     }
-}
 
+    // Helper method to get seat display name (row + column)
+    public String getSeatName() {
+        return row + column;
+    }
+}

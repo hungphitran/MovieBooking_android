@@ -14,7 +14,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/primary"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
     </com.google.android.material.appbar.AppBarLayout>
@@ -59,9 +59,14 @@
 
             <!-- Pagination Controls -->
             <HorizontalScrollView
+                android:id="@+id/pagination_scroll_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="none">
+                android:scrollbars="none"
+                android:fillViewport="true"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:background="@color/surface">
 
                 <LinearLayout
                     android:id="@+id/pagination_layout"
@@ -69,8 +74,11 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
                     android:paddingTop="8dp"
-                    android:paddingBottom="8dp" />
+                    android:paddingBottom="8dp"
+                    android:layout_gravity="center" />
             </HorizontalScrollView>
         </LinearLayout>
     </FrameLayout>

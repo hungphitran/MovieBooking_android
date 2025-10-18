@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ public class MovieListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MovieAdapter adapter;
     private LinearLayout paginationLayout;
+    private HorizontalScrollView paginationScrollView;
     private ProgressBar progressBar;
     private Toolbar toolbar;
     private TextView pageInfoTextView;
@@ -59,6 +61,7 @@ public class MovieListActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         recyclerView = findViewById(R.id.recycler_movies);
         paginationLayout = findViewById(R.id.pagination_layout);
+        paginationScrollView = findViewById(R.id.pagination_scroll_view);
         progressBar = findViewById(R.id.progressBar);
         pageInfoTextView = findViewById(R.id.page_info_text);
     }
@@ -100,7 +103,7 @@ public class MovieListActivity extends AppCompatActivity {
             pageInfoTextView.setVisibility(View.GONE);
         }
 
-        apiService.getMoviesWithPagination(page).enqueue(new Callback<MoviesResponse>() {
+        apiService.getMoviesWithPagination(page).enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<MoviesResponse> call, @NonNull Response<MoviesResponse> response) {
                 progressBar.setVisibility(View.GONE);
@@ -149,18 +152,16 @@ public class MovieListActivity extends AppCompatActivity {
 
     private void updatePageInfo() {
         if (pageInfoTextView != null) {
-            pageInfoTextView.setText(String.format("Trang %d / %d", currentPage, totalPages));
+            pageInfoTextView.setText(String.format(java.util.Locale.getDefault(), "Trang %d / %d", currentPage, totalPages));
         }
     }
 
     private void setupPagination() {
         paginationLayout.removeAllViews();
 
-        // Add "First" button if not on first page
-        if (currentPage > 1) {
-            Button btnFirst = createPaginationButton("⏮ Đầu");
-            btnFirst.setOnClickListener(v -> loadMoviesFromApi(1));
-            paginationLayout.addView(btnFirst);
+        // Scroll về đầu để hiển thị nút đầu tiên
+        if (paginationScrollView != null) {
+            paginationScrollView.post(() -> paginationScrollView.smoothScrollTo(0, 0));
         }
 
         // Add "Previous" button
@@ -188,8 +189,7 @@ public class MovieListActivity extends AppCompatActivity {
             final int pageNumber = i;
 
             if (i == currentPage) {
-                btn.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
-                btn.setTextColor(getResources().getColor(android.R.color.white));
+                btn.setSelected(true);
             }
 
             btn.setOnClickListener(v -> loadMoviesFromApi(pageNumber));
@@ -202,25 +202,11 @@ public class MovieListActivity extends AppCompatActivity {
             btnNext.setOnClickListener(v -> loadMoviesFromApi(currentPage + 1));
             paginationLayout.addView(btnNext);
         }
-
-        // Add "Last" button if not on last page
-        if (currentPage < totalPages) {
-            Button btnLast = createPaginationButton("Cuối ⏭");
-            btnLast.setOnClickListener(v -> loadMoviesFromApi(totalPages));
-            paginationLayout.addView(btnLast);
-        }
     }
 
     private Button createPaginationButton(String text) {
-        Button btn = new Button(this);
+        Button btn = (Button) getLayoutInflater().inflate(R.layout.button_pagination, paginationLayout, false);
         btn.setText(text);
-        btn.setPadding(16, 8, 16, 8);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        params.setMargins(4, 0, 4, 0);
-        btn.setLayoutParams(params);
         return btn;
     }
 
@@ -233,3 +219,4 @@ public class MovieListActivity extends AppCompatActivity {
         }
     }
 }
+

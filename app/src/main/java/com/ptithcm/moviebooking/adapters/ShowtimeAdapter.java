@@ -1,7 +1,6 @@
 package com.ptithcm.moviebooking.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ptithcm.moviebooking.R;
-import com.ptithcm.moviebooking.ShowtimeDetailActivity;
 import com.ptithcm.moviebooking.models.Showtime;
 
 import java.util.ArrayList;
@@ -20,6 +18,7 @@ import java.util.List;
 public class ShowtimeAdapter extends RecyclerView.Adapter<ShowtimeAdapter.ShowtimeViewHolder> {
     private Context context;
     private List<Showtime> showtimeList;
+    private OnShowtimeClickListener listener;
 
     public ShowtimeAdapter(Context context) {
         this.context = context;
@@ -29,6 +28,10 @@ public class ShowtimeAdapter extends RecyclerView.Adapter<ShowtimeAdapter.Showti
     public void setShowtimeList(List<Showtime> showtimeList) {
         this.showtimeList = showtimeList;
         notifyDataSetChanged();
+    }
+
+    public void setOnShowtimeClickListener(OnShowtimeClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -75,15 +78,24 @@ public class ShowtimeAdapter extends RecyclerView.Adapter<ShowtimeAdapter.Showti
             tvShowDate.setText(showtime.getShowDate());
             tvStartTime.setText(showtime.getStartTime());
             tvEndTime.setText(showtime.getEndTime());
-            tvAvailableSeats.setText(showtime.getAvailableSeats() + "/" + showtime.getTotalSeats() + " ghế trống");
+
+            // Hiển thị số ghế available
+            // Nếu có totalSeats thì hiển thị cả hai, nếu không chỉ hiển thị available
+            if (showtime.getTotalSeats() > 0) {
+                tvAvailableSeats.setText(showtime.getAvailableSeats() + "/" + showtime.getTotalSeats() + " ghế trống");
+            } else {
+                tvAvailableSeats.setText(showtime.getAvailableSeats() + " ghế trống");
+            }
 
             itemView.setOnClickListener(v -> {
-                Intent intent = new Intent(context, ShowtimeDetailActivity.class);
-                intent.putExtra("showtimeId", showtime.getId());
-                intent.putExtra("movieTitle", showtime.getMovie() != null ? showtime.getMovie().getTitle() : "");
-                context.startActivity(intent);
+                if (listener != null) {
+                    listener.onShowtimeClick(showtime);
+                }
             });
         }
     }
-}
 
+    public interface OnShowtimeClickListener {
+        void onShowtimeClick(Showtime showtime);
+    }
+}

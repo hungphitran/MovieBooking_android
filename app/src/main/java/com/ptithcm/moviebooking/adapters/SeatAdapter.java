@@ -66,12 +66,16 @@ public class SeatAdapter extends RecyclerView.Adapter<SeatAdapter.SeatViewHolder
         }
 
         public void bind(Seat seat) {
-            tvSeatNumber.setText(seat.getSeatNumber());
+            tvSeatNumber.setText(seat.getSeatName());
 
             // Thiết lập màu sắc dựa trên trạng thái ghế
             if (seat.isBooked()) {
                 // Ghế đã được đặt - màu xám
                 cardSeat.setCardBackgroundColor(ContextCompat.getColor(context, R.color.seat_booked));
+                cardSeat.setEnabled(false);
+            } else if (seat.isReserved()) {
+                // Ghế đang được giữ chỗ - màu vàng cam
+                cardSeat.setCardBackgroundColor(ContextCompat.getColor(context, R.color.seat_reserved));
                 cardSeat.setEnabled(false);
             } else if (seat.isSelected()) {
                 // Ghế đang chọn - màu xanh lá
@@ -85,7 +89,7 @@ public class SeatAdapter extends RecyclerView.Adapter<SeatAdapter.SeatViewHolder
 
             // Xử lý sự kiện click
             cardSeat.setOnClickListener(v -> {
-                if (!seat.isBooked() && listener != null) {
+                if (!seat.isBooked() && !seat.isReserved() && listener != null) {
                     seat.setSelected(!seat.isSelected());
                     listener.onSeatClick(seat);
                     notifyItemChanged(getAdapterPosition());
@@ -94,4 +98,3 @@ public class SeatAdapter extends RecyclerView.Adapter<SeatAdapter.SeatViewHolder
         }
     }
 }
-

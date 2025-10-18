@@ -1,6 +1,10 @@
 package com.ptithcm.moviebooking;
 
+import static android.content.ContentValues.TAG;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -76,6 +80,16 @@ public class ShowtimeListActivity extends AppCompatActivity {
         showtimeAdapter = new ShowtimeAdapter(this);
         rvShowtimes.setLayoutManager(new LinearLayoutManager(this));
         rvShowtimes.setAdapter(showtimeAdapter);
+
+        // Set click listener for showtime items
+        showtimeAdapter.setOnShowtimeClickListener(showtime -> {
+            Intent intent = new Intent(ShowtimeListActivity.this, ShowtimeDetailActivity.class);
+            intent.putExtra("showtimeId", showtime.getId());
+            if (showtime.getMovie() != null) {
+                intent.putExtra("movieTitle", showtime.getMovie().getTitle());
+            }
+            startActivity(intent);
+        });
     }
 
     private void loadShowtimes() {
@@ -128,6 +142,7 @@ public class ShowtimeListActivity extends AppCompatActivity {
             onBackPressed();
             return true;
         }
+         getSupportActionBar().setTitle("Danh sách lịch chiếu");
         return super.onOptionsItemSelected(item);
     }
 }

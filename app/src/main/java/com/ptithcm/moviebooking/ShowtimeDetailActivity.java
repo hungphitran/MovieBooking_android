@@ -3,6 +3,7 @@ package com.ptithcm.moviebooking;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -111,18 +112,46 @@ public class ShowtimeDetailActivity extends AppCompatActivity implements SeatAda
                                            @NonNull Response<ShowtimeDetailResponse> response) {
                         progressBar.setVisibility(View.GONE);
 
-                        if (response.isSuccessful() && response.body() != null) {
-                            ShowtimeDetailResponse showtimeResponse = response.body();
-                            if (showtimeResponse.isSuccess() && showtimeResponse.getData() != null) {
-                                showtime = showtimeResponse.getData().getShowtime();
-                                allSeats = showtimeResponse.getData().getSeats();
-                                displayShowtimeInfo();
-                                displaySeats();
+                        try {
+                            Log.d("aaaaaaaaaaa", "========== API RESPONSE ==========");
+                            Log.d("aaaaaaaaaaa", "Response code: " + response.code());
+                            Log.d("aaaaaaaaaaa", "Response successful: " + response.isSuccessful());
+                            Log.d("aaaaaaaaaaa", "Response body: " + (response.body() != null ? "NOT NULL" : "NULL"));
+
+                            if (response.isSuccessful() && response.body() != null) {
+                                ShowtimeDetailResponse showtimeResponse = response.body();
+
+                                Log.d("aaaaaaaaaaa", "Response success status: " + showtimeResponse.isSuccess());
+                                Log.d("aaaaaaaaaaa", "Response data: " + (showtimeResponse.getData() != null ? "NOT NULL" : "NULL"));
+
+                                if (showtimeResponse.isSuccess() && showtimeResponse.getData() != null) {
+                                    Log.d("aaaaaaaaaaa", "About to call toShowtime()...");
+
+                                    showtime = showtimeResponse.getData().toShowtime();
+                                    allSeats = showtimeResponse.getData().getSeats();
+
+                                    Log.d("aaaaaaaaaaa", "showtime object: " + (showtime != null ? "NOT NULL" : "NULL"));
+                                    if (showtime != null) {
+                                        Log.d("aaaaaaaaaaa", "showtime.getMovie(): " + (showtime.getMovie() != null ? "NOT NULL" : "NULL"));
+                                        if (showtime.getMovie() != null) {
+                                            Log.d("aaaaaaaaaaa", "movie.getBudget(): " + showtime.getMovie().getBudget());
+                                        }
+                                    }
+                                    Log.d("aaaaaaaaaaa", "allSeats: " + (allSeats != null ? allSeats.size() + " seats" : "NULL"));
+                                    Log.d("aaaaaaaaaaa", "==================================");
+
+                                    displayShowtimeInfo();
+                                    displaySeats();
+                                } else {
+                                    showError("Không thể tải thông tin lịch chiếu");
+                                }
                             } else {
-                                showError("Không thể tải thông tin lịch chiếu");
+                                showError("Lỗi kết nối: " + response.code());
                             }
-                        } else {
-                            showError("Lỗi kết nối: " + response.code());
+                        } catch (Exception e) {
+                            Log.e("aaaaaaaaaaa", "EXCEPTION in onResponse: " + e.getMessage());
+                            Log.e("aaaaaaaaaaa", "Stack trace: ", e);
+                            showError("Lỗi xử lý dữ liệu: " + e.getMessage());
                         }
                     }
 
@@ -130,12 +159,17 @@ public class ShowtimeDetailActivity extends AppCompatActivity implements SeatAda
                     public void onFailure(@NonNull Call<ShowtimeDetailResponse> call,
                                           @NonNull Throwable t) {
                         progressBar.setVisibility(View.GONE);
+                        Log.e("aaaaaaaaaaa", "API CALL FAILED: " + t.getMessage());
+                        Log.e("aaaaaaaaaaa", "Stack trace: ", t);
                         showError("Lỗi: " + t.getMessage());
                     }
                 });
     }
 
     private void displayShowtimeInfo() {
+        Log.d("aaaaaaaaaaa", "Displaying showtime info..."+
+                " showtime: " + (showtime != null ? "NOT NULL" : "NULL")+
+                " movieTitle: " + (movieTitle != null ? movieTitle : "NULL"));
         if (showtime != null) {
             if (showtime.getMovie() != null) {
                 tvMovieTitle.setText(showtime.getMovie().getTitle());
@@ -154,12 +188,63 @@ public class ShowtimeDetailActivity extends AppCompatActivity implements SeatAda
     }
 
     private void displaySeats() {
+        Log.d("aaaaaaaaaaa", "Displaying seats...");
         if (allSeats != null && !allSeats.isEmpty()) {
+            calculateSeatPrices();
             seatAdapter.setSeatList(allSeats);
             rvSeats.setVisibility(View.VISIBLE);
         } else {
             showError("Không có ghế nào");
         }
+    }
+
+    /**
+     * Calculate seat prices based on movie budget
+     * Budget is the price per seat
+     * Total price = number of selected seats × budget
+     */
+    private void calculateSeatPrices() {
+        Log.d("aaaaaaaaaaa", "========================================");
+        Log.d("aaaaaaaaaaa", "calculateSeatPrices() CALLED!");
+        Log.d("aaaaaaaaaaa", "========================================");
+
+        if (showtime == null) {
+            Log.e("aaaaaaaaaaa", "ERROR: showtime is NULL - returning early");
+            return;
+        }
+
+        Log.d("aaaaaaaaaaa", "showtime is NOT null, checking movie...");
+
+        if (showtime.getMovie() == null) {
+            Log.e("aaaaaaaaaaa", "ERROR: showtime.getMovie() is NULL - returning early");
+            return;
+        }
+
+        Log.d("aaaaaaaaaaa", "Movie is NOT null, getting budget...");
+
+        long budget = showtime.getMovie().getBudget();
+        Log.d("aaaaaaaaaaa", "Budget from movie.getBudget(): " + budget);
+
+        // Budget is the price per seat
+        // Default to 50,000 VND if no budget is set
+        double pricePerSeat = budget > 0 ? budget : 50000.0;
+        Log.d("aaaaaaaaaaa", "Price per seat (after calculation): " + pricePerSeat);
+        Log.d("aaaaaaaaaaa", "Number of seats to process: " + allSeats.size());
+
+        // Set the same price for all seats
+        int count = 0;
+        for (Seat seat : allSeats) {
+            seat.setPrice(pricePerSeat);
+            count++;
+            if (count <= 5) { // Log first 5 seats
+                Log.d("aaaaaaaaaaa", "  Seat " + seat.getSeatName() + " price set to: " + seat.getPrice());
+            }
+        }
+
+        Log.d("aaaaaaaaaaa", "========================================");
+        Log.d("aaaaaaaaaaa", "calculateSeatPrices() COMPLETED!");
+        Log.d("aaaaaaaaaaa", "Total seats processed: " + count);
+        Log.d("aaaaaaaaaaa", "========================================");
     }
 
     @Override
@@ -188,7 +273,7 @@ public class ShowtimeDetailActivity extends AppCompatActivity implements SeatAda
             totalPrice = 0;
             for (int i = 0; i < selectedSeats.size(); i++) {
                 Seat seat = selectedSeats.get(i);
-                seatsText.append(seat.getSeatNumber());
+                seatsText.append(seat.getSeatName());
                 totalPrice += seat.getPrice();
                 if (i < selectedSeats.size() - 1) {
                     seatsText.append(", ");
@@ -213,7 +298,7 @@ public class ShowtimeDetailActivity extends AppCompatActivity implements SeatAda
         StringBuilder message = new StringBuilder();
         message.append("Bạn đã chọn ").append(selectedSeats.size()).append(" ghế:\n");
         for (Seat seat : selectedSeats) {
-            message.append("• ").append(seat.getSeatNumber()).append("\n");
+            message.append("• ").append(seat.getSeatName()).append("\n");
         }
         NumberFormat formatter = NumberFormat.getInstance(new Locale("vi", "VN"));
         message.append("\nTổng tiền: ").append(formatter.format(totalPrice)).append(" VNĐ");

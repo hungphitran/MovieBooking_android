@@ -30,7 +30,10 @@ public class Movie {
     @SerializedName("backdrop_path")
     private String backdropPath;
 
-    public Movie(int id, String title, String posterUrl, String genre, String duration, 
+    @SerializedName("budget")
+    private long budget;
+
+    public Movie(int id, String title, String posterUrl, String genre, String duration,
                  double rating, String releaseDate, String description) {
         this.id = id;
         this.title = title;
@@ -113,5 +116,13 @@ public class Movie {
 
     public void setBackdropPath(String backdropPath) {
         this.backdropPath = backdropPath;
+    }
+
+    public long getBudget() {
+        return budget;
+    }
+
+    public void setBudget(long budget) {
+        this.budget = budget;
     }
 }

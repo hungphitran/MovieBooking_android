@@ -15,4 +15,11 @@
     <color name="seat_available">#FFFFFF</color>
     <color name="seat_selected">#4CAF50</color>
     <color name="seat_booked">#9E9E9E</color>
+    <color name="seat_reserved">#FF9800</color>
+
+    <!-- Pagination colors -->
+    <color name="pagination_button">#2F2F2F</color>
+    <color name="pagination_button_active">#E50914</color>
+    <color name="pagination_text">#B3B3B3</color>
+    <color name="pagination_text_active">#FFFFFF</color>
 </resources>

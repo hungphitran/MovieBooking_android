@@ -102,6 +102,10 @@ public class ProfileFragment extends Fragment {
         apiService.getUserProfile().enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(@NonNull Call<UserResponse> call, @NonNull Response<UserResponse> response) {
+                if (!isAdded() || getContext() == null) {
+                    return; // Fragment is not attached, don't try to show Toast
+                }
+
                 if (response.isSuccessful() && response.body() != null) {
                     UserResponse userResponse = response.body();
                     if (userResponse.isSuccess() && userResponse.getData() != null) {
@@ -109,12 +113,12 @@ public class ProfileFragment extends Fragment {
                         tvUserName.setText(userResponse.getData().getName());
                         tvUserEmail.setText(userResponse.getData().getEmail());
                     } else {
-                        Toast.makeText(getActivity(),
+                        Toast.makeText(requireContext(),
                                 "Failed to load profile: " + userResponse.getMessage(),
                                 Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(getActivity(),
+                    Toast.makeText(requireContext(),
                             "Error loading profile: " + response.code(),
                             Toast.LENGTH_SHORT).show();
                 }
@@ -122,7 +126,11 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onFailure(@NonNull Call<UserResponse> call, @NonNull Throwable t) {
-                Toast.makeText(getActivity(),
+                if (!isAdded() || getContext() == null) {
+                    return; // Fragment is not attached, don't try to show Toast
+                }
+
+                Toast.makeText(requireContext(),
                         "Connection error: " + t.getMessage(),
                         Toast.LENGTH_SHORT).show();
             }

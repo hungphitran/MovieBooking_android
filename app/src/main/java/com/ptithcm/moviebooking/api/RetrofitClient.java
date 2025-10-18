@@ -14,8 +14,11 @@ public class RetrofitClient {
     // For Android Emulator: Use 10.0.2.2 (special alias to host machine's localhost)
     // For Physical Device: Use your computer's actual IP (e.g., "http://192.168.1.100:8000/")
     // To find your IP on Windows: Open CMD and run "ipconfig" - look for IPv4 Address
+// java
+// For Android Emulator:
     private static final String BASE_URL = "http://10.0.2.2:8000/api/";
-//    private static final String BASE_URL = "https://fastapiproject.fly.dev/api/";
+
+    // For Physical Device on your Wi‑Fi (use this one):
 //    private static final String BASE_URL = "https://fastapiproject.fly.dev/api/";
 
     private static RetrofitClient instance;
