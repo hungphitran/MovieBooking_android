@@ -79,7 +79,7 @@ public interface ApiService {
     Call<ShowtimeDetailResponse> getShowtimeDetail(@Path("id") String showtimeId);
 
     // Đặt vé
-    @POST("bookings")
+    @POST("bookings/create")
     Call<BookingResponse> createBooking(@Body BookingRequest bookingRequest);
 
     // Lấy danh sách bookings của user

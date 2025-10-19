@@ -1,6 +1,7 @@
 package com.ptithcm.moviebooking;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -312,6 +313,9 @@ public class ShowtimeDetailActivity extends AppCompatActivity implements SeatAda
     }
 
     private void createBooking() {
+
+
+        Log.d("aaaaaaaaa", "Creating booking for showtimeId: " + showtimeId);
         // Lấy email từ SharedPreferences
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         String userEmail = prefs.getString(KEY_USER_EMAIL, "");
@@ -343,8 +347,9 @@ public class ShowtimeDetailActivity extends AppCompatActivity implements SeatAda
 
                         if (response.isSuccessful() && response.body() != null) {
                             BookingResponse bookingResponse = response.body();
-                            if (bookingResponse.isSuccess()) {
-                                showSuccessDialog();
+                            if (bookingResponse.isSuccess() && bookingResponse.getData() != null) {
+                                // Chuyển đến trang thanh toán
+                                navigateToPayment(bookingResponse);
                             } else {
                                 Toast.makeText(ShowtimeDetailActivity.this,
                                         "Đặt vé thất bại: " + bookingResponse.getMessage(),
@@ -362,6 +367,7 @@ public class ShowtimeDetailActivity extends AppCompatActivity implements SeatAda
                                           @NonNull Throwable t) {
                         progressBar.setVisibility(View.GONE);
                         btnBookNow.setEnabled(true);
+                        Log.d("dev_error", "Booking API call failed: " + t.getMessage());
                         Toast.makeText(ShowtimeDetailActivity.this,
                                 "Lỗi kết nối: " + t.getMessage(),
                                 Toast.LENGTH_SHORT).show();
@@ -391,5 +397,38 @@ public class ShowtimeDetailActivity extends AppCompatActivity implements SeatAda
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void navigateToPayment(BookingResponse bookingResponse) {
+        if (bookingResponse.getData() == null) {
+            Toast.makeText(this, "Lỗi: Không có dữ liệu booking", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent intent = new Intent(this, PaymentActivity.class);
+        Log.d("dev_debug", "Navigating to PaymentActivity with booking data"+bookingResponse.getData().getBooking());
+        // Truyền thông tin booking
+        if (bookingResponse.getData().getBooking() != null) {
+            intent.putExtra("movieTitle", bookingResponse.getData().getBooking().getMovieTitle());
+            intent.putExtra("showDate", bookingResponse.getData().getBooking().getShowDate());
+            intent.putExtra("showTime", bookingResponse.getData().getBooking().getShowTime());
+            intent.putExtra("seats", bookingResponse.getData().getBooking().getSeatsString());
+            intent.putExtra("totalAmount", bookingResponse.getData().getBooking().getTotalAmount());
+            intent.putExtra("bookingId", bookingResponse.getData().getBooking().getBookingId());
+            intent.putExtra("expiresAt", bookingResponse.getData().getBooking().getExpiresAt());
+        }
+
+        // Truyền thông tin payment link
+        if (bookingResponse.getData().getPaymentLink() != null) {
+            intent.putExtra("checkoutUrl", bookingResponse.getData().getPaymentLink().getCheckoutUrl());
+            intent.putExtra("orderCode", bookingResponse.getData().getPaymentLink().getOrderCode());
+            intent.putExtra("paymentLinkId", bookingResponse.getData().getPaymentLink().getPaymentLinkId());
+        }
+
+        intent.putExtra("message", bookingResponse.getMessage());
+
+        startActivity(intent);
+        // Đóng activity hiện tại để người dùng không quay lại màn hình chọn ghế
+        finish();
     }
 }

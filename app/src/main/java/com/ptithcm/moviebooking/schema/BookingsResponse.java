@@ -1,12 +1,13 @@
 package com.ptithcm.moviebooking.schema;
 
-import com.ptithcm.moviebooking.models.Booking;
+import com.ptithcm.moviebooking.models.BookingDetail;
 import java.util.List;
 
 public class BookingsResponse {
     private boolean success;
     private String message;
-    private List<Booking> data;
+    private List<BookingDetail> data;
+    private int total;
 
     public BookingsResponse() {
     }
@@ -27,12 +28,19 @@ public class BookingsResponse {
         this.message = message;
     }
 
-    public List<Booking> getData() {
+    public List<BookingDetail> getData() {
         return data;
     }
 
-    public void setData(List<Booking> data) {
+    public void setData(List<BookingDetail> data) {
         this.data = data;
     }
-}
 
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+}

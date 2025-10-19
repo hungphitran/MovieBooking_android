@@ -68,6 +68,11 @@
             android:name=".ShowtimeDetailActivity"
             android:exported="false"
             android:theme="@style/Theme.MovieBooking" />
+        <!-- Payment Activity -->
+        <activity
+            android:name=".PaymentActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MovieBooking" />
     </application>
 
 </manifest>
