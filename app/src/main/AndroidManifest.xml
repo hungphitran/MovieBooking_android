@@ -44,7 +44,13 @@
             android:exported="false" /> <!-- Register Activity -->
         <activity
             android:name=".RegisterActivity"
-            android:exported="false" /> <!-- Main Activity -->
+            android:exported="false" />
+        <!-- Forgot Password Activity -->
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MovieBooking" />
+        <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="false" /> <!-- Movie Detail Activity -->

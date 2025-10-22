@@ -1,20 +1,27 @@
 package com.ptithcm.moviebooking.api;
 
 import com.ptithcm.moviebooking.schema.AuthResponse;
+import com.ptithcm.moviebooking.schema.BookingDetailResponse;
 import com.ptithcm.moviebooking.schema.BookingRequest;
 import com.ptithcm.moviebooking.schema.BookingResponse;
 import com.ptithcm.moviebooking.schema.BookingsResponse;
 import com.ptithcm.moviebooking.schema.ChangePasswordRequest;
 import com.ptithcm.moviebooking.schema.ChangePasswordResponse;
+import com.ptithcm.moviebooking.schema.ForgotPasswordRequest;
+import com.ptithcm.moviebooking.schema.ForgotPasswordResponse;
 import com.ptithcm.moviebooking.schema.LoginRequest;
 import com.ptithcm.moviebooking.schema.MovieDetailResponse;
 import com.ptithcm.moviebooking.schema.MoviesResponse;
 import com.ptithcm.moviebooking.schema.RegisterRequest;
+import com.ptithcm.moviebooking.schema.ResetPasswordRequest;
+import com.ptithcm.moviebooking.schema.ResetPasswordResponse;
 import com.ptithcm.moviebooking.schema.ShowtimeDetailResponse;
 import com.ptithcm.moviebooking.schema.ShowtimesResponse;
 import com.ptithcm.moviebooking.schema.UpdateProfileRequest;
 import com.ptithcm.moviebooking.schema.UpdateProfileResponse;
 import com.ptithcm.moviebooking.schema.UserResponse;
+import com.ptithcm.moviebooking.schema.VerifyOtpRequest;
+import com.ptithcm.moviebooking.schema.VerifyOtpResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -66,6 +73,18 @@ public interface ApiService {
     @POST("auth/change-password")
     Call<ChangePasswordResponse> changePassword(@Body ChangePasswordRequest changePasswordRequest);
 
+    // Quên mật khẩu - Gửi OTP
+    @POST("auth/forgot-password")
+    Call<ForgotPasswordResponse> forgotPassword(@Body ForgotPasswordRequest forgotPasswordRequest);
+
+    // Xác thực OTP
+    @POST("auth/verify-otp")
+    Call<VerifyOtpResponse> verifyOtp(@Body VerifyOtpRequest verifyOtpRequest);
+
+    // Đặt lại mật khẩu
+    @POST("auth/reset-password")
+    Call<ResetPasswordResponse> resetPassword(@Body ResetPasswordRequest resetPasswordRequest);
+
     // Lấy danh sách showtimes
     @GET("showtimes")
     Call<ShowtimesResponse> getShowtimes();
@@ -85,4 +104,8 @@ public interface ApiService {
     // Lấy danh sách bookings của user
     @GET("bookings")
     Call<BookingsResponse> getUserBookings();
+
+    // Lấy chi tiết booking theo ID
+    @GET("bookings/{booking_id}")
+    Call<BookingDetailResponse> getBookingDetail(@Path("booking_id") String bookingId);
 }

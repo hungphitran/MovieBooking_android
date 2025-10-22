@@ -423,6 +423,7 @@ public class ShowtimeDetailActivity extends AppCompatActivity implements SeatAda
             intent.putExtra("checkoutUrl", bookingResponse.getData().getPaymentLink().getCheckoutUrl());
             intent.putExtra("orderCode", bookingResponse.getData().getPaymentLink().getOrderCode());
             intent.putExtra("paymentLinkId", bookingResponse.getData().getPaymentLink().getPaymentLinkId());
+            intent.putExtra("qrCode", bookingResponse.getData().getPaymentLink().getQrCode());
         }
 
         intent.putExtra("message", bookingResponse.getMessage());
